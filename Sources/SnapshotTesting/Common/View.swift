@@ -966,7 +966,8 @@
       drawHierarchyInKeyWindow: Bool,
       traits: UITraitCollection,
       view: UIView,
-      viewController: UIViewController
+      viewController: UIViewController,
+      delay: Double? = nil
     )
       -> Async<UIImage>
     {
@@ -984,7 +985,7 @@
       return
         (view.snapshot
         ?? Async { callback in
-          addImagesForRenderedViews(view).sequence().run { views in
+          addImagesForRenderedViews(view).sequence().delay(by: delay).run { views in
             callback(
               renderer(bounds: view.bounds, for: traits).image { ctx in
                 if drawHierarchyInKeyWindow {
